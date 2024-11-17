@@ -15,6 +15,8 @@ while read cur
 
 for arg in $@ 
     do 
+        arg=${arg,,}
+        arg=${arg^}
         {
         mkdir -p $targetPath/$arg && echo -e "${bwhite}   $arg:" 
         } 2>> "$targetPath/errors.txt" || { echo -e "${red}ERROR:${nc} failed to create class ${bwhite}$arg${nc}" 
@@ -26,7 +28,7 @@ for arg in $@
             {
             touch "$targetPath/$arg/$arg.h"
             echo -e "#ifndef ${arg^^}_H\n#define ${arg^^}_H\n" > "$targetPath/$arg/$arg.h"
-            echo -e "class $arg{\n\n\tprivate:\n\t\t\t$arg();\n\n\tpublic:\n\n};" >> "$targetPath/$arg/$arg.h"
+            echo -e "class $arg{\n\n\tprivate:\n\n\tpublic:\n\t\t\t$arg();\n};" >> "$targetPath/$arg/$arg.h"
             echo -e "#endif" >> "$targetPath/$arg/$arg.h" 
             #echo "errrrrrrrr" >&2 && false
             } 2>> "$targetPath/errors.txt" && echo -e "\t${nc}$arg.h : ${green}✓" 
